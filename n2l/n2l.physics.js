@@ -2,12 +2,8 @@ var Ph = {};
 
 // Vector 2D
 Ph.Vector2 = function(x, y) {
-  if (x !== undefined) {
-    this.x = x;
-  }
-  if (y !== undefined) {
-    this.y = y;
-  }
+  if (x !== undefined) this.x = x;
+  if (y !== undefined) this.y = y;
 };
   Ph.Vector2.prototype.magnitude = function() {
     return Math.sqrt((this.x * this.x) + (this.y * this.y));

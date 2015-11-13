@@ -7,6 +7,8 @@ var stage = {
   }
 };
 
+canvas.style.cursor = 'none';
+
 // update the mouse x and y when the mouse moves
 window.addEventListener('mousemove', function(event) {
   stage.mouse.x = event.clientX;
@@ -19,10 +21,21 @@ window.addEventListener('resize', (function resizeListener() {
   canvas.height = stage.height = window.innerHeight;
   return resizeListener;
 }()));
-var i = 0;
+var color = new util.Color();
 function draw() {
   requestAnimationFrame(draw);
-  ctx.fillStyle = 'hsl(' + (i=i+0.25) + ', 80%, 75%)';
+  color.parse(
+    255 * stage.mouse.x / stage.width,
+    160,
+    255 * stage.mouse.y / stage.height);
+  ctx.fillStyle = "#" + color.hex();
+  ctx.strokeStyle = 'white';
   ctx.fillRect(0, 0, stage.width, stage.height);
+  ctx.beginPath();
+  ctx.moveTo(0.5, stage.mouse.y + 0.5);
+  ctx.lineTo(stage.width + 0.5, stage.mouse.y + 0.5);
+  ctx.moveTo(stage.mouse.x + 0.5, 0.5);
+  ctx.lineTo(stage.mouse.x + 0.5, stage.height + 0.5);
+  ctx.stroke();
 }
 draw();
