@@ -3,15 +3,53 @@
 <head>
   <meta encoding="utf-8">
   <title>Newton's Second Law</title>
+  <link rel="stylesheet" href="n2l.css">
 </head>
-<body style="margin:0;overflow:hidden;">
+<body>
   <canvas id="c">
   <p>
 Uh-oh - you can't see this interactive demo because you're using an outdated browser. Perhaps it's time to <a href="http://browsehappy.com/">discover the new web that <b>upgrading your browser</b> will open to you!</a> (Now asbestos free!)
   </p>
   </canvas>
-  <script src="n2l.utils.min.js"></script>
-  <script src="n2l.physics.min.js"></script>
-  <script src="n2l.min.js"></script>
+  <div id="fps" class="m"></div>
+  <button id="scene-toggle"></button>
+  <div class="console">
+    <div class="panel-left">
+      <div id="ws-beaufort">5</div>
+      <div id="ws-description">Fresh Breeze</div>
+      <div id="ws-value" class="n">8.2</div>
+      <div id="ws-label">m/s wind speed<br>(relative to boat)</div>
+    </div>
+    <div class="panel-center">
+      <div class="c-block c-force">
+        <div class="value can-edit n" id="value-force">618</div>
+        <div class="label"><strong>N</strong> FORCE</div>
+      </div>
+      <div class="c-operator">=</div>
+      <div class="c-block c-mass">
+        <div class="value can-edit n" id="value-mass">2250</div>
+        <div class="label"><strong>kg</strong> MASS</div>
+      </div>
+      <div class="c-operator">&times;</div>
+      <div class="c-block c-accel">
+        <div class="value can-edit n" id="value-accel">0.275</div>
+        <div class="label"><strong>m/s&sup2;</strong> ACCELERATION</div>
+      </div>
+    </div>
+    <div class="panel-right">
+      <div id="vel-reset">(click to reset)</div>
+      <div id="vel-value" class="m">12</div>
+      <div id="vel-label">m/s velocity</div>
+    </div>
+  </div>
+  <div class="nofit-cover">
+    <h1>Uh-oh!</h1>
+    <p>Your device isn't wide enough to run this demo&hellip;</p>
+    <p>Try rotating the device or resizing the browser window.</p>
+  </div>
+  <script src="min/n2l.utils.min.js"></script>
+  <script src="min/n2l.physics.min.js"></script>
+  <script src="min/n2l.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:700,400,500,300|Lora:400,700|Inconsolata" rel="stylesheet" type="text/css">
 </body>
 </html>

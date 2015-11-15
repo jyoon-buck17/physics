@@ -1,0 +1,175 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  transition: ease 1s;
+  background-color: #A0DDEA;
+  font-family: 'Raleway', 'Roboto', sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.n {
+  font-family: 'Lora', serif;
+}
+.m {
+  font-family: 'Inconsolata', monospace;
+}
+.nofit-cover {
+  z-index: 1000;
+  box-sizing: border-box;
+  padding-top: 3em;
+  text-align: center;
+  color: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #BB4521;
+}
+@media screen and (min-width: 800px) {
+  .nofit-cover {
+    display: none;
+  }
+}
+
+#fps {
+  font-size: 10px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+#scene-toggle {
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  border: none;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+#scene-toggle:hover {
+  transform: scale(1.05);
+}
+#scene-toggle:focus {
+  outline: none;
+}
+.scene-falling #scene-toggle {
+  background-image: url(img/button-to-boat.png);
+}
+.scene-boat #scene-toggle {
+  background-image: url(img/button-to-falling.png);
+}
+.scene-transitioning #scene-toggle {
+  opacity: 0.5;
+  cursor: default;
+  transform: scale(1) !important;
+  background-color: rgba(0,0,0,0.8);
+}
+.console {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  background-color: #716C55;
+  color: white;
+}
+.panel-left, .panel-right {
+  background-color: rgba(255,255,255,0.25);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 180px;
+  transition: 0.5s ease;
+}
+.panel-left {left: -180px;}
+.scene-boat .panel-left {
+  transform: translate(180px);
+}
+.panel-right {right: 0;}
+#ws-beaufort {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  font-size: 12px;
+}
+#ws-description, #vel-reset {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  font-size: 12px;
+}
+#ws-value, #vel-value {
+  position: absolute;
+  top: 22px;
+  width: 100%;
+  text-align: center;
+  font-size: 40px;
+}
+#vel-value {
+  font-size: 46px;
+}
+#ws-label, #vel-label {
+  position: absolute;
+  bottom: 4px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+.panel-center {
+  position: absolute;
+  left: calc(50% - 220px);
+  width: 440px;
+}
+
+.c-block {
+  display: inline-block;
+  float: left;
+  width: 120px;
+  height: 100px;
+  vertical-align: top;
+  position: relative;
+}
+.c-block .value {
+  font-size: 28px;
+  height: 100%;
+  line-height: 80px;
+  text-align: center;
+}
+.c-block .value.can-edit {
+  cursor: ew-resize;
+}
+.c-block .value.can-edit::before {
+  content: '\2039\a0';
+  opacity: 0.5;
+}
+.c-block .value.can-edit::after {
+  content: '\a0\203a';
+  opacity: 0.5;
+}
+.c-block .label {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  font-style: italic;
+}
+.c-block .label strong {
+  font-style: normal;
+  display: block;
+}
+.c-operator {
+  display: inline-block;
+  float: left;
+  width: 40px;
+  text-align: center;
+  line-height: 80px;
+  font-size: 24px;
+}
+
+/* 120 * 3 for blocks
+   40 each for operators */
