@@ -1,6 +1,8 @@
 var Ph = {};
 
 // Vector 2D
+// I DON'D ACTUALLY USE V2D OR DVA2 IN N2L, BUT I KEPT IT IN BECAUSE IT'S
+// NIFTY AND I'M SURE IT'LL GO INTO SOMETHING ELSE.
 Ph.Vector2 = function(x, y) {
   if (x !== undefined) this.x = x;
   if (y !== undefined) this.y = y;
@@ -32,32 +34,38 @@ Ph.FMARelationship = function(params) {
   this.mass = params.mass;
   this.acceleration = params.acceleration;
 };
-  Ph.FMARelationship.prototype.force = function(params, set) {
+  Ph.FMARelationship.prototype.getForce = function(params, set) {
     params = params || {};
     var mass = params.mass || this.mass;
     var acceleration = params.acceleration || this.acceleration;
     var force = mass * acceleration;
     if (set) {
       this.force = force;
+      this.mass = mass;
+      this.acceleration = acceleration;
     }
     return force;
   };
-  Ph.FMARelationship.prototype.mass = function(params, set) {
+  Ph.FMARelationship.prototype.getMass = function(params, set) {
     params = params || {};
     var force = params.force || this.force;
     var acceleration = params.acceleration || this.acceleration;
     var mass = force / acceleration;
     if (set) {
+      this.force = force;
       this.mass = mass;
+      this.acceleration = acceleration;
     }
     return mass;
   };
-  Ph.FMARelationship.prototype.acceleration = function(params, set) {
+  Ph.FMARelationship.prototype.getAcceleration = function(params, set) {
     params = params || {};
     var force = params.force || this.force;
     var mass = params.mass || this.mass;
     var acceleration = force / mass;
     if (set) {
+      this.force = force;
+      this.mass = mass;
       this.acceleration = acceleration;
     }
     return acceleration;

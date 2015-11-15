@@ -15,30 +15,31 @@ Uh-oh - you can't see this interactive demo because you're using an outdated bro
   <button id="scene-toggle"></button>
   <div class="console">
     <div class="panel-left">
-      <div id="ws-beaufort">5</div>
-      <div id="ws-description">Fresh Breeze</div>
-      <div id="ws-value" class="n">8.2</div>
+      <div id="ws-beaufort">{ws-beaufort}</div>
+      <div id="ws-description">{ws-description}</div>
+      <div id="ws-value" class="n">{ws-value}</div>
       <div id="ws-label">m/s wind speed<br>(relative to boat)</div>
     </div>
     <div class="panel-center">
       <div class="c-block c-force">
-        <div class="value can-edit n" id="value-force">618</div>
+        <div class="value n" id="value-force">{force}</div>
         <div class="label"><strong>N</strong> FORCE</div>
       </div>
       <div class="c-operator">=</div>
       <div class="c-block c-mass">
-        <div class="value can-edit n" id="value-mass">2250</div>
+        <div class="type" id="type-mass">BB</div>
+        <div class="value n" id="value-mass">{mass}</div>
         <div class="label"><strong>kg</strong> MASS</div>
       </div>
       <div class="c-operator">&times;</div>
       <div class="c-block c-accel">
-        <div class="value can-edit n" id="value-accel">0.275</div>
+        <div class="value n" id="value-accel">{accel}</div>
         <div class="label"><strong>m/s&sup2;</strong> ACCELERATION</div>
       </div>
     </div>
-    <div class="panel-right">
-      <div id="vel-reset">(click to reset)</div>
-      <div id="vel-value" class="m">12</div>
+    <div class="panel-right" id="vel-reset">
+      <div id="vel-help">(click to reset)</div>
+      <div id="vel-value" class="m">{vel-value}</div>
       <div id="vel-label">m/s velocity</div>
     </div>
   </div>
