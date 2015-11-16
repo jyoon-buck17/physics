@@ -32,7 +32,12 @@ body {
     display: none;
   }
 }
-
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 #fps {
   font-size: 10px;
   position: absolute;

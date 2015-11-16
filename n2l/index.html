@@ -7,11 +7,8 @@
   <link rel="stylesheet" href="n2l.css">
 </head>
 <body>
-  <canvas id="c">
-  <p>
-Uh-oh - you can't see this interactive demo because you're using an outdated browser. Perhaps it's time to <a href="http://browsehappy.com/">discover the new web that <b>upgrading your browser</b> will open to you!</a> (Now asbestos free!)
-  </p>
-  </canvas>
+  <canvas id="c"></canvas>
+  <div id="stage"></div>
   <div id="fps" class="m"></div>
   <button id="scene-toggle"></button>
   <div class="console">
@@ -49,6 +46,7 @@ Uh-oh - you can't see this interactive demo because you're using an outdated bro
     <p>Your device isn't wide enough to run this demo&hellip;</p>
     <p>Try rotating the device or resizing the browser window.</p>
   </div>
+  <script src="https://gabelerner.github.io/canvg/canvg.js"></script>
   <script src="min/n2l.utils.min.js"></script>
   <script src="min/n2l.physics.min.js"></script>
   <script src="min/n2l.min.js"></script>

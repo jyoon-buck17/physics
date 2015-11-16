@@ -1,8 +1,5 @@
 var Ph = {};
 
-// Vector 2D
-// I DON'D ACTUALLY USE V2D OR DVA2 IN N2L, BUT I KEPT IT IN BECAUSE IT'S
-// NIFTY AND I'M SURE IT'LL GO INTO SOMETHING ELSE.
 Ph.Vector2 = function(x, y) {
   if (x !== undefined) this.x = x;
   if (y !== undefined) this.y = y;
@@ -20,7 +17,7 @@ Ph.DVASystem2 = function(dx, dy, vx, vy, ax, ay) {
   this.velocity = new Ph.Vector2(vx, vy);
   this.acceleration = new Ph.Vector2(ax, ay);
 };
-  Ph.DVASystem2.tick = function() {
+  Ph.DVASystem2.prototype.tick = function() {
     this.displacement.x += this.velocity.x;
     this.displacement.y += this.velocity.y;
     this.velocity.x += this.acceleration.x;

@@ -3,15 +3,61 @@ var CONST = {
   densityAir: 1.225,
   sailArea: 7.5,
   accelGravity: 9.8,
-  displayPrecision: 4
+  displayPrecision: 4,
+  wstroke: {
+    lengthCoeff: 1,
+    speedCoeff: 1
+  }
 };
+var n2l = {};
 function disp(n, p) {
   if (p) {
     return n.toPrecision(CONST.displayPrecision);
   }
   return Number(n.toPrecision(CONST.displayPrecision));
 }
-var n2l = {};
+var WindStroke = function(direction) {
+  // direction = 0; upward
+  // direction = 1; rightward
+  this.direction = direction;
+  this.position = new Ph.Vector2();
+  this.position.x = Math.random() * n2l.stage.width;
+  this.position.y = Math.random() * n2l.stage.height;
+  this.offscreen = false;
+};
+WindStroke.prototype.draw = function() {
+  if (this.offscreen) this.offscreen = false;
+  var ctx = n2l.ctx;
+  ctx.beginPath();
+  ctx.moveTo(this.position.x, this.position.y);
+  if (this.direction) {
+    ctx.lineTo(this.position.x - 10 * CONST.wstroke.lengthCoeff * n2l.boat.windSpeed,
+      this.position.y);
+  } else {
+    ctx.lineTo(this.position.x,
+      this.position.y + CONST.wstroke.lengthCoeff * n2l.active.velocity);
+  }
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = Math.max(0, 4 - 1E-2 * n2l.active.velocity);
+  ctx.stroke();
+  if (this.direction) {
+    this.position.x += 5 * CONST.wstroke.speedCoeff * n2l.boat.windSpeed;
+    if (this.position.x - 10 * CONST.wstroke.lengthCoeff * n2l.boat.windSpeed > n2l.stage.width) {
+      this.offscreen = true;
+      this.position.x -= (1 + Math.random()) * n2l.stage.width;
+      this.position.y = Math.random() * n2l.stage.height;
+    }
+  } else {
+    this.position.y -= CONST.wstroke.speedCoeff * n2l.active.velocity;
+    if (this.position.y + CONST.wstroke.lengthCoeff * n2l.active.velocity < 0) {
+      this.offscreen = true;
+      this.position.x = Math.random() * n2l.stage.width;
+      this.position.y += (1 + Math.random()) * n2l.stage.height;
+    }
+  }
+};
+n2l.$stage = document.getElementById('stage');
 n2l.stage = {
   width: 0, height: 0,
   mouse: {
@@ -20,6 +66,10 @@ n2l.stage = {
 };
 n2l.$canvas = document.getElementById('c');
 n2l.ctx = n2l.$canvas.getContext('2d');
+n2l.ctx.globalCompositeOperation = 'destination-atop';
+n2l.windStrokes = [];
+
+
 // falling setup
 n2l.falling = {velocity: 0};
 n2l.falling.fma = new Ph.FMARelationship();
@@ -35,18 +85,72 @@ n2l.falling.range = {
     min: 0.1
   }
 };
+n2l.falling.imageStates = ["marble","brick","bowling ball","anvil","piano","rhino"];
+(function() {
+  // preload all the images, hopefully
+  n2l.falling.imageStates.forEach(function(imageName) {
+    var $img = document.createElement('img');
+    $img.style.transform = 'translate(-9999px, -9999px)';
+    $img.onload = $img.onerror = function() {
+      this.remove();
+    };
+    n2l.$stage.appendChild($img);
+    $img.src = '/n2l/assets/falling/' + imageName.replace(' ', '-') + '.png';
+  });
+
+  n2l.falling.$img = document.createElement('img');
+  n2l.falling.$img.style.transform = 'translate(-9999px, -9999px)';
+  n2l.$stage.appendChild(n2l.falling.$img);
+
+  n2l.falling.init = function() {
+    n2l.windStrokes.forEach(function(stroke) {
+      stroke.direction = 0;
+    });
+  };
+  n2l.falling.rot = new Ph.DVASystem2(0, 0, 0, 0, 0, 0);
+  n2l.falling.lastImage = '';
+  n2l.falling.draw = function() {
+    n2l.falling.rot.acceleration.x += 0.01 * (0.5 - Math.random());
+    if (Math.abs(n2l.falling.rot.velocity.x) > 2) {
+      n2l.falling.rot.acceleration.x -= Math.sign(n2l.falling.rot.velocity.x) * 0.02;
+      n2l.falling.rot.acceleration.x *= 0.25;
+    }
+    var mass = n2l.falling.fma.mass;
+    var image = n2l.falling.getMassType(mass).replace(' ', '-');
+    if (image !== n2l.falling.lastImage) {
+      n2l.falling.$img.src = '/n2l/assets/falling/' + image + '.png';
+      n2l.falling.lastImage = image;
+    }
+    // i assure you, this is all quite a bit crappier than I wanted it to be
+    n2l.falling.rot.tick();
+    var rotate = n2l.falling.rot.displacement.x;
+    var scale = 1 + (0.2 * Math.log10(n2l.falling.fma.mass));
+    n2l.falling.$img.style.transform =
+      'scale(' + scale + ') ' +
+      'rotate(' + rotate + 'deg) ';
+
+    // now, draw all the wind strokes
+    n2l.ctx.clearRect(0, 0, n2l.stage.width, n2l.stage.height);
+    n2l.windStrokes.forEach(function(stroke) {
+      stroke.draw();
+    });
+  };
+  n2l.falling.cleanUp = function() {
+    n2l.falling.$img.style.transform = 'translate(-9999px, -9999px)';
+  };
+
+}());
+n2l.falling.getMassNumber = function(mass) {
+  var n = 0;
+  if (mass >= 0.5) n++;
+  if (mass >= 4) n++;
+  if (mass >= 10) n++;
+  if (mass >= 200) n++;
+  if (mass >= 1000) n++;
+  return n;
+};
 n2l.falling.getMassType = function(mass) {
-  return [
-    "marble","brick","bowling ball","anvil","piano","rhino"
-  ][(function() {
-    var n = 0;
-    if (mass >= 0.5) n++;
-    if (mass >= 4) n++;
-    if (mass >= 10) n++;
-    if (mass >= 200) n++;
-    if (mass >= 1000) n++;
-    return n;
-  }())];
+  return n2l.falling.imageStates[n2l.falling.getMassNumber(mass)];
 };
 
 // boat setup
@@ -68,6 +172,24 @@ n2l.boat.range = {
     max: 3600
   }
 };
+(function() {
+  n2l.boat.init = function() {
+    n2l.windStrokes.forEach(function(stroke) {
+      stroke.direction = 1;
+    });
+  };
+  n2l.boat.draw = function() {
+    n2l.boat.windSpeed = Math.sqrt(n2l.active.fma.force / (CONST.densityAir * CONST.sailArea));
+    // now, draw all the wind strokes
+    n2l.ctx.clearRect(0, 0, n2l.stage.width, n2l.stage.height);
+    n2l.windStrokes.forEach(function(stroke) {
+      stroke.draw();
+    });
+  };
+  n2l.boat.cleanUp = function() {
+
+  };
+}());
 n2l.boat.getBeaufortNumber = function(windSpeed) {
   var n = 0;
   if (windSpeed >= 0.278) n++;
@@ -109,10 +231,12 @@ window.addEventListener('resize', (function resizeListener() {
 
 n2l.scene = 0; // 0: falling
                // 1: boat
+n2l.active = n2l.falling;
 
 function doTransition() {
   document.body.classList.remove('scene-falling', 'scene-boat');
   document.body.classList.add('scene-transitioning');
+  n2l.active.cleanUp();
   n2l.active = n2l[['falling', 'boat'][n2l.scene]];
   // do assorted transitioney stuff
   // since I'm on quite the time constraint, probably no nifty transitions for
@@ -124,7 +248,7 @@ function doTransition() {
   n2l.active.dynamic.forEach(function(type) {
     n2l.$[type].classList.add('can-edit');
   });
-
+  n2l.active.init();
   document.body.classList.remove('scene-transitioning');
   document.body.classList.add('scene-' + ['falling', 'boat'][n2l.scene]);
 }
@@ -161,6 +285,7 @@ function doTransition() {
   n2l.updateDisplays = function() {
     if (n2l.scene === 1) {
       var vel = Math.sqrt(n2l.active.fma.force / (CONST.densityAir * CONST.sailArea));
+      n2l.boat.windSpeed = vel;
       var bn = n2l.boat.getBeaufortNumber(vel);
       n2l.$.ws.beaufortNumber.innerText = bn;
       n2l.$.ws.beaufortDescription.innerText = n2l.boat.getBeaufortDesc(bn);
@@ -212,6 +337,10 @@ function doTransition() {
   });
 }());
 
+for (var i = 1000; i >= 0; i--) {
+  n2l.windStrokes.push(new WindStroke(0));
+}
+
 n2l.timing = {};
 n2l.timing.last = Date.now();
 n2l.timing.runningFPS = 60;
@@ -219,9 +348,9 @@ doTransition();
 function draw() {
   // raf, timing
   requestAnimationFrame(draw);
-  var thisTime = Date.now();
-  n2l.timing.delta = thisTime - n2l.timing.last;
-  n2l.timing.last = thisTime;
+  n2l.timing.this = Date.now();
+  n2l.timing.delta = n2l.timing.this - n2l.timing.last;
+  n2l.timing.last = n2l.timing.this;
   n2l.timing.fps = 1000 / n2l.timing.delta;
   var runningFPS = (49 * n2l.timing.runningFPS + n2l.timing.fps) / 50;
   if (runningFPS !== n2l.timing.runningFPS) {
@@ -230,6 +359,7 @@ function draw() {
   }
   // main loop!
 
+  n2l.active.draw();
   n2l.active.velocity += n2l.active.fma.acceleration * n2l.timing.delta * 1E-3;
   n2l.updateDisplays();
 }
