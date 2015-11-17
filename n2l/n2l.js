@@ -10,6 +10,7 @@ var CONST = {
   }
 };
 var n2l = {};
+n2l.path = (~location.host.indexOf('github.io') ? '/physics/' : '/') + 'n2l/assets/';
 function disp(n, p) {
   if (p) {
     return n.toPrecision(CONST.displayPrecision);
@@ -95,7 +96,7 @@ n2l.falling.imageStates = ["marble","brick","bowling ball","anvil","piano","rhin
       this.remove();
     };
     n2l.$stage.appendChild($img);
-    $img.src = '/n2l/assets/falling/' + imageName.replace(' ', '-') + '.png';
+    $img.src = n2l.path + 'falling/' + imageName.replace(' ', '-') + '.png';
   });
 
   n2l.falling.$img = document.createElement('img');
@@ -118,7 +119,7 @@ n2l.falling.imageStates = ["marble","brick","bowling ball","anvil","piano","rhin
     var mass = n2l.falling.fma.mass;
     var image = n2l.falling.getMassType(mass).replace(' ', '-');
     if (image !== n2l.falling.lastImage) {
-      n2l.falling.$img.src = '/n2l/assets/falling/' + image + '.png';
+      n2l.falling.$img.src = n2l.path + 'falling/' + image + '.png';
       n2l.falling.lastImage = image;
     }
     // i assure you, this is all quite a bit crappier than I wanted it to be
@@ -173,6 +174,11 @@ n2l.boat.range = {
   }
 };
 (function() {
+  n2l.boat.$img = document.createElement('img');
+  n2l.boat.$img.src = n2l.path + 'boat.png';
+  n2l.boat.$img.style.display = 'none';
+  n2l.boat.$img.style.transform = 'translate(-9999px, -9999px)';
+  n2l.$stage.appendChild(n2l.boat.$img);
   n2l.boat.init = function() {
     n2l.windStrokes.forEach(function(stroke) {
       stroke.direction = 1;
@@ -337,7 +343,9 @@ function doTransition() {
   });
 }());
 
-for (var i = 1000; i >= 0; i--) {
+// going with 800 for now. can change on the spot if super laggy
+// by setting localstorage.wind
+for (var i = (Number(localStorage.getItem('wind')) || 800); i >= 0; i--) {
   n2l.windStrokes.push(new WindStroke(0));
 }
 
