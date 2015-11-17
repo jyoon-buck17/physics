@@ -38,6 +38,12 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+.scene-boat #stage {
+  left: 20px;
+  top: inherit;
+  bottom: -20px;
+  transform: none;
+}
 #fps {
   font-size: 10px;
   position: absolute;
@@ -49,9 +55,12 @@ body {
   left: 1em;
   top: 1em;
   border: none;
+  box-sizing: border-box;
   width: 48px;
   height: 48px;
   cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.75);
   transition: 0.25s ease;
 }
 #scene-toggle:hover {
@@ -61,10 +70,11 @@ body {
   outline: none;
 }
 .scene-falling #scene-toggle {
-  background-image: url(img/button-to-boat.png);
+  /* relative paths will work with and without /physics */
+  background-image: url(assets/button-to-boat.png);
 }
 .scene-boat #scene-toggle {
-  background-image: url(img/button-to-falling.png);
+  background-image: url(assets/button-to-falling.png);
 }
 .scene-transitioning #scene-toggle {
   opacity: 0.5;
@@ -80,6 +90,10 @@ body {
   width: 100%;
   background-color: #716C55;
   color: white;
+  transition: 0.5s ease;
+}
+.scene-boat .console {
+  background-color: #0F7AAD;
 }
 .panel-left, .panel-right {
   background-color: rgba(255,255,255,0.25);

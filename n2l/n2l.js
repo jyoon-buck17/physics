@@ -10,7 +10,6 @@ var CONST = {
   }
 };
 var n2l = {};
-n2l.path = (~location.host.indexOf('github.io') ? '/physics/' : '/') + 'n2l/assets/';
 function disp(n, p) {
   if (p) {
     return n.toPrecision(CONST.displayPrecision);
@@ -96,7 +95,7 @@ n2l.falling.imageStates = ["marble","brick","bowling ball","anvil","piano","rhin
       this.remove();
     };
     n2l.$stage.appendChild($img);
-    $img.src = n2l.path + 'falling/' + imageName.replace(' ', '-') + '.png';
+    $img.src = 'assets/falling/' + imageName.replace(' ', '-') + '.png';
   });
 
   n2l.falling.$img = document.createElement('img');
@@ -119,7 +118,7 @@ n2l.falling.imageStates = ["marble","brick","bowling ball","anvil","piano","rhin
     var mass = n2l.falling.fma.mass;
     var image = n2l.falling.getMassType(mass).replace(' ', '-');
     if (image !== n2l.falling.lastImage) {
-      n2l.falling.$img.src = n2l.path + 'falling/' + image + '.png';
+      n2l.falling.$img.src = 'assets/falling/' + image + '.png';
       n2l.falling.lastImage = image;
     }
     // i assure you, this is all quite a bit crappier than I wanted it to be
@@ -175,25 +174,36 @@ n2l.boat.range = {
 };
 (function() {
   n2l.boat.$img = document.createElement('img');
-  n2l.boat.$img.src = n2l.path + 'boat.png';
+  n2l.boat.$img.src = 'assets/boat.png';
   n2l.boat.$img.style.display = 'none';
   n2l.boat.$img.style.transform = 'translate(-9999px, -9999px)';
+  n2l.boat.$img.style.transformOrigin = 'bottom center';
   n2l.$stage.appendChild(n2l.boat.$img);
   n2l.boat.init = function() {
     n2l.windStrokes.forEach(function(stroke) {
       stroke.direction = 1;
     });
+    n2l.boat.$img.style.display = 'block';
+    n2l.boat.tick = 0;
+    n2l.boat.pos = 0;
   };
   n2l.boat.draw = function() {
+    n2l.boat.tick++;
     n2l.boat.windSpeed = Math.sqrt(n2l.active.fma.force / (CONST.densityAir * CONST.sailArea));
     // now, draw all the wind strokes
     n2l.ctx.clearRect(0, 0, n2l.stage.width, n2l.stage.height);
     n2l.windStrokes.forEach(function(stroke) {
       stroke.draw();
     });
+    n2l.boat.pos += n2l.boat.velocity * n2l.timing.delta * 0.1;
+    var rotation = Math.min(2 * n2l.boat.windSpeed, 15) * Math.sin(n2l.boat.tick / 80);
+    var scale = 0.66 + n2l.boat.fma.mass / 7200;
+    n2l.boat.$img.style.transform = 'translate(' +
+       n2l.boat.pos + 'px, 0) scale(' + scale + ') rotate(' + rotation + 'deg)';
   };
   n2l.boat.cleanUp = function() {
-
+    n2l.boat.$img.style.display = 'none';
+    n2l.boat.$img.style.transform = 'translate(-9999px, -9999px)';
   };
 }());
 n2l.boat.getBeaufortNumber = function(windSpeed) {
@@ -287,6 +297,7 @@ function doTransition() {
 
   n2l.$.velocityReset.addEventListener('click', function() {
     n2l.active.velocity = 0;
+    n2l.boat.pos = 0;
   });
   n2l.updateDisplays = function() {
     if (n2l.scene === 1) {
