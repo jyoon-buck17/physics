@@ -90,11 +90,6 @@ n2l.falling.imageStates = ["marble","brick","bowling ball","anvil","piano","rhin
   // preload all the images, hopefully
   n2l.falling.imageStates.forEach(function(imageName) {
     var $img = document.createElement('img');
-    $img.style.transform = 'translate(-9999px, -9999px)';
-    $img.onload = $img.onerror = function() {
-      this.remove();
-    };
-    n2l.$stage.appendChild($img);
     $img.src = 'assets/falling/' + imageName.replace(' ', '-') + '.png';
   });
 
