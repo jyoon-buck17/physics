@@ -317,11 +317,12 @@ function doTransition() {
   n2l.changingStartX = 0;
   n2l.changingStart = 0;
   ['force', 'mass', 'acceleration'].forEach(function(type) {
-    n2l.$[type].addEventListener('mousedown', function() {
+    n2l.$[type].addEventListener('mousedown', function(event) {
       if (this.classList.contains('can-edit')) {
         n2l.changing = type;
         n2l.changingStart = n2l.active.fma[type];
       }
+      event.preventDefault();
     });
   });
   document.body.addEventListener('mouseup', function() {
@@ -329,6 +330,7 @@ function doTransition() {
   });
   document.body.addEventListener('mousemove', function(event) {
     if (n2l.changing) {
+      event.preventDefault();
       // this is awesome:
       var change = Math.exp(8 * (event.clientX - n2l.changingStartX) / n2l.stage.width);
       // this is awesomer:
