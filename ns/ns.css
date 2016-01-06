@@ -1,0 +1,182 @@
+body, #start #startBtn, #audioOptions [control=speechtest] #speechTest {
+  font-family: 'Source Sans Pro', sans-serif; }
+
+body, #start, #start #startBtn, #audioOptions, #audioOptions h2, #audioOptions [control=shape] [shape-control], #audioOptions [control=speechtest] #speechTest, #playingInfo {
+  -webkit-transition: 0.25s ease;
+  transition: 0.25s ease; }
+
+#start #startBtn, #audioOptions [control=shape] [shape-control], #audioOptions [control=speechtest] #speechTest {
+  cursor: pointer; }
+  #start #startBtn:focus, #audioOptions [control=shape] [shape-control]:focus, #audioOptions [control=speechtest] #speechTest:focus {
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75); }
+  #start #startBtn:hover, #audioOptions [control=shape] [shape-control]:hover, #audioOptions [control=speechtest] #speechTest:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 5px rgba(0, 0, 0, 0.33); }
+  #start #startBtn:active, #audioOptions [control=shape] [shape-control]:active, #audioOptions [control=speechtest] #speechTest:active {
+    -webkit-filter: brightness(105%);
+            filter: brightness(105%);
+    box-shadow: 0 5px 16px 4px rgba(0, 0, 0, 0.25), 0 0 8px rgba(0, 0, 0, 0.33); }
+
+body {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: default;
+  overflow: hidden;
+  color: white; }
+  body[page=start] {
+    background: #87CEEB; }
+    body[page=start] #audioOptions h2 {
+      cursor: default; }
+  body[movement="1"] {
+    background: #E8BD87; }
+  body[movement="2"] {
+    background: #E88787; }
+  body[movement="3"] {
+    background: #E887BD; }
+  body[movement="4"] {
+    background: #BA87E8; }
+  body[movement="5"] {
+    background: #87A0E8; }
+  body[options=open] #audioOptions {
+    -webkit-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+            transform: translateY(-100%); }
+  body[loading] #audioOptions {
+    opacity: 0.5;
+    pointer-events: none; }
+  body[page=playing] #playingInfo {
+    opacity: 1; }
+
+h1, h2 {
+  font-weight: 200;
+  text-align: center; }
+
+#start {
+  opacity: 0;
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%); }
+  #start h1 {
+    font-size: 4em;
+    margin-top: 1em; }
+  #start h2 {
+    font-weight: 400;
+    font-size: 2em; }
+  #start #startBtn {
+    z-index: 100;
+    position: absolute;
+    width: 200px;
+    height: 60px;
+    left: calc(50% - 100px);
+    top: calc(50% - 30px);
+    font-size: 1.5em;
+    border: 4px solid #5D91A9;
+    background: #87CEEB;
+    color: white; }
+    #start #startBtn:disabled {
+      -webkit-filter: brightness(95%);
+              filter: brightness(95%);
+      cursor: default;
+      color: #5D91A9;
+      box-shadow: none; }
+    #start #startBtn.error {
+      color: red; }
+
+[page=start] #start {
+  opacity: 1;
+  -webkit-transform: none;
+      -ms-transform: none;
+          transform: none; }
+
+#audioOptions {
+  background: #5D91A9;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  height: 18em;
+  width: 100%;
+  -webkit-transform: translateY(-4.25em);
+      -ms-transform: translateY(-4.25em);
+          transform: translateY(-4.25em); }
+  #audioOptions h2 {
+    cursor: pointer; }
+  #audioOptions > [control] {
+    position: absolute;
+    padding: 12px;
+    text-align: center; }
+    #audioOptions > [control] h3 {
+      margin: 0; }
+  #audioOptions [control=shape] {
+    right: 50%;
+    border-right: 1px solid white; }
+    #audioOptions [control=shape] div {
+      float: left;
+      padding: 10px;
+      text-align: center; }
+    #audioOptions [control=shape] [shape-control] {
+      box-sizing: content-box;
+      padding: 0;
+      height: 48px;
+      width: 72px;
+      border: 2px solid #49778A;
+      border-radius: 4px;
+      background: url("images/waves.png"), #87CEEB; }
+      #audioOptions [control=shape] [shape-control][shape=sine] {
+        background-position: 0 0;
+        -webkit-animation: to-sine 0.25s ease;
+                animation: to-sine 0.25s ease; }
+
+@-webkit-keyframes to-sine {
+  0% {
+    background-position: 72px 0; } }
+
+@keyframes to-sine {
+  0% {
+    background-position: 72px 0; } }
+      #audioOptions [control=shape] [shape-control][shape=triangle] {
+        background-position: -72px 0; }
+      #audioOptions [control=shape] [shape-control][shape=square] {
+        background-position: -144px 0; }
+      #audioOptions [control=shape] [shape-control][shape=sawtooth] {
+        background-position: -216px 0; }
+  #audioOptions [control=speechtest] {
+    left: 50%; }
+    #audioOptions [control=speechtest] #speechTest {
+      font-size: 1.5em;
+      padding: 4px 14px;
+      margin-top: 1em;
+      border: 2px solid #49778A;
+      border-radius: 4px;
+      background: #87CEEB;
+      color: white; }
+
+#playingInfo {
+  opacity: 0;
+  position: absolute;
+  top: 5em;
+  left: calc(50% - 12em);
+  width: 24em;
+  text-align: center; }
+  #playingInfo h1 {
+    font-weight: 200;
+    font-size: 3em; }
+  #playingInfo h2 {
+    font-size: 1.5em;
+    font-weight: 700; }
+    #playingInfo h2 .sub {
+      font-size: 0.667em;
+      margin-top: 1em;
+      font-weight: 400;
+      font-style: italic; }
+  #playingInfo p {
+    margin-top: 1em;
+    margin-left: -2em;
+    width: calc(100% + 4em);
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 1.25em;
+    background-color: rgba(0, 0, 0, 0.5);
+    line-height: 1.5;
+    border-radius: 4px; }

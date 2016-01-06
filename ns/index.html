@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Newton's Three Laws Rap</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,400italic,700,700italic">
+  <link rel="stylesheet" href="ns.css">
+</head>
+<body page="start" options="open" loading>
+  <section id="start">
+    <h1>Newton's Three Laws "Rap"</h1>
+    <h2>Jordan Yoon-Buck</h2>
+    <button disabled id="startBtn">Loading&hellip;</button>
+  </section>
+  <section id="playingInfo">
+    <h1></h1>
+    <h2></h2>
+    <p>&nbsp;</p>
+  </section>
+  <section id="audioOptions">
+    <h2>Audio Options</h2>
+    <div control="shape">
+      <h3>Shape</h3>
+      <div control="shape-under">
+        <h4>Primary</h4>
+        <button shape-control shape="sine" id="shapeUnder"></button>
+      </div>
+      <div control="shape-over">
+        <h4>Overtone</h4>
+        <button shape-control shape="sine" id="shapeOver"></button>
+      </div>
+    </div>
+    <div control="speechtest">
+      <h3>Test Speech Synthesis</h3>
+      <button id="speechTest">Test</button>
+    </div>
+  </section>
+  <script src="https://tonejs.github.io/CDN/r3/Tone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenLite.min.js"></script>
+  <script>"use strict";let a;window.ok='ok'</script><script>if(!window.ok){startBtn.innerHTML = 'Not supported!';startBtn.classList.add('error');alert('Your browser does not support needed ES6 features, including "let".')}</script>
+  <script src="ns.js"></script>
+</body>
+</html>
