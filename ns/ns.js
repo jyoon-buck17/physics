@@ -38,7 +38,6 @@ function playPhrase(text) {
     todisp = text[0]
     tospeak = text[1]
   }
-  console.log(todisp, tospeak)
   $('#playingInfo p').innerText = todisp
   return new Promise((res, rej)=> {
     let utterance = new SpeechSynthesisUtterance();
@@ -46,7 +45,6 @@ function playPhrase(text) {
     utterance.text = tospeak
     if (voice) utterance.voiceURI = voice
     utterance.onend = ()=> {
-      console.log(todisp, 'done')
       res()
     }
     utterance.onerror = rej
