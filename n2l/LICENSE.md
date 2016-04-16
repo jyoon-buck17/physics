@@ -7,7 +7,7 @@ Also, what is it with clipart websites and being named after animals.
 ```
 The MIT License (MIT)
 
-Copyright (c) 2016 Jordan Yoon-Buck
+Copyright (c) 2015-2016 Jordan Yoon-Buck
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
